@@ -67,7 +67,7 @@ def analyze_xray_g(image_bytes: bytes, file_name: str, patient_id: str, notes: s
         response = model.generate_content(
             [image_part, user_prompt],
             generation_config=genai.GenerationConfig(
-                max_output_tokens=2000,
+                max_output_tokens=8192,
                 temperature=0.2,  # Low temperature = more consistent, structured output
             ),
         )
