@@ -2,90 +2,104 @@
 # Paste this at the start of every new Claude session
 
 ## PROJECT OVERVIEW
-Building a dental X-ray (OPG) analysis SaaS for US dental schools and clinics.
+Dental X-ray (OPG) analysis SaaS for US dental schools and clinics.
 AI analyzes panoramic dental X-rays and generates structured clinical draft reports.
 Target users: dental students + dentists (USA market)
 Co-founder setup: Developer in Pakistan, dentist cousin in USA for domain expertise + sales
 
-## CURRENT PHASE
-Phase 1 — Streamlit MVP (validate with real users before full build)
+## CURRENT STATUS
+✅ PHASE 1 COMPLETE — MVP is live and deployed
+GitHub repo: github.com/Xavierfied/radion_ai (public)
+Currently in: Validation phase — waiting for cousin's feedback from real users
 
-## TECH STACK (FINAL DECIDED)
-- Phase 1 (now):  Streamlit + Claude Vision API + ReportLab PDF
-- Phase 2 (next): FastAPI (Python backend) + Next.js (frontend) + Supabase (DB) + Railway (hosting)
-- AI: Claude Sonnet (claude-sonnet-4-5) Vision API with prompt caching
-- Payments (later): Stripe
-- Pricing model: 20 free analyses trial → $299/mo school plan, $149/mo clinic, $49/mo solo
-
-## WHAT HAS BEEN BUILT (SESSION 1 — COMPLETE)
-Full Streamlit MVP with these features:
-✅ X-ray image upload (JPEG/PNG/WebP)
-✅ Patient ID input (no real names — basic HIPAA awareness)
-✅ Claude Vision API integration with prompt caching
-✅ Structured OPG report generation (full dental analysis format)
-✅ PDF report download (via ReportLab)
-✅ TXT report download
-✅ Session history (in-memory, shows past analyses this session)
-✅ Token usage + cost estimate per analysis
-✅ Disclaimer on every report (legal protection)
-✅ Clean professional UI with custom CSS
-
-## FILE STRUCTURE
-dental-ai/
-├── app.py                  ← Main Streamlit app (UI + state management)
-├── analyzer.py             ← Claude API integration + error handling
-├── report_template.py      ← Full OPG analysis system prompt
-├── pdf_generator.py        ← ReportLab PDF generation
+## ACTUAL FILE STRUCTURE
+radion_ai/
+├── .streamlit/
+│   └── config.toml         ← Dark theme config
+├── .venv/                  ← Virtual environment (not on GitHub)
+├── keys/
+│   └── .env                ← API keys — local only, never on GitHub
+├── prompts/
+│   └── report_template.py  ← Full OPG analysis system prompt
+├── utils/
+│   ├── analyzer.py         ← Claude/Anthropic version (not active yet)
+│   ├── analyzer_g.py       ← Gemini version (CURRENTLY ACTIVE)
+│   └── pdf_generator.py    ← ReportLab PDF generation
+├── app.py                  ← Main Streamlit app
 ├── requirements.txt        ← Python dependencies
-├── .env                    ← API key (ANTHROPIC_API_KEY=...) — NOT committed to git
-├── .env.example            ← Template for .env
+├── .gitignore              ← Contains .env and .venv
 └── SESSION_CONTEXT.md      ← This file
 
-## ENVIRONMENT VARIABLES NEEDED
-ANTHROPIC_API_KEY=your_key_here
-(Get from console.anthropic.com → API Keys)
+## IMPORTANT — IMPORT PATHS
+Since files are in subfolders, imports in app.py use:
+    from utils.analyzer_g import analyze_xray
+    from utils.pdf_generator import generate_pdf
+    from prompts.report_template import DENTAL_ANALYSIS_PROMPT
 
-## HOW TO RUN LOCALLY
-1. pip install -r requirements.txt
-2. Add your API key to .env file
-3. streamlit run app.py
-4. Opens at http://localhost:8501
+And analyzer_g.py loads env from:
+    from dotenv import load_dotenv
+    load_dotenv("keys/.env")
 
-## WHAT'S NOT BUILT YET (PHASE 2)
-- User authentication (login/signup)
-- Persistent database (analyses saved between sessions)
-- Patient profile management (attach multiple X-rays to one patient)
-- Side-by-side X-ray comparison
-- Organization/multi-user management (school admin + students)
-- Trial system (20 free analyses then paywall)
-- Stripe payments
-- Proper cloud deployment
+## ACTIVE AI SETUP
+Currently using:  Gemini 2.0 Flash (analyzer_g.py)
+Free tier limits: 1,500 requests/day, 15 requests/minute
+Streamlit secret: GEMINI_API_KEY = "your_key"
 
-## KNOWN LIMITATIONS OF CURRENT BUILD
-- History only persists within one browser session (no database yet)
-- No user accounts — anyone with the URL can use it
-- No DICOM support (only JPEG/PNG — fine for Phase 1)
-- Not HIPAA compliant yet (no BAA signed, no encrypted storage)
+Future switch:    Claude Sonnet (analyzer.py) — when ready to go paid
+Reason for swap:  Better structured output, prompt caching, more reliable
+
+## ENVIRONMENT VARIABLES
+Local:            keys/.env → GEMINI_API_KEY=your_key
+Streamlit Cloud:  Secrets → GEMINI_API_KEY = "your_key"
+
+## FEATURES BUILT (PHASE 1)
+✅ X-ray image upload (JPEG/PNG/WebP)
+✅ Patient ID input
+✅ Gemini Vision API analysis with structured OPG report
+✅ PDF report download
+✅ TXT report download
+✅ Session history (in-memory)
+✅ Token usage + cost estimate per analysis
+✅ Disclaimer on every report
+✅ Dark mode UI
+✅ Deployed publicly on Streamlit Cloud
+
+## WHAT'S NOT BUILT (PHASE 2 — in priority order)
+1. Login + user accounts (Supabase auth)
+2. Persistent database (save reports between sessions)
+3. Patient profile management
+4. PDF export improvements
+5. Side-by-side X-ray comparison
+6. Trial limit system (20 free → paywall)
+7. Stripe payments
+8. Chrome extension
+9. Multi-user org accounts (school admin + students)
+
+## PRICING MODEL (DECIDED)
+Trial:       20 free analyses
+Solo:        $49/month  — 1 user
+Clinic:      $149/month — up to 5 users
+School plan: $299/month — unlimited users per org
 
 ## COMPLIANCE NOTES
-- Disclaimer on every report (AI draft, must be reviewed by licensed professional)
-- Using Patient IDs not real names (keeps us outside HIPAA territory for now)
-- Not FDA cleared — positioned as educational/workflow assistance tool
-- HIPAA BAA + proper compliance comes in Phase 2 before charging real clinics
+- Disclaimer on every report
+- Patient IDs only, no real names
+- Not HIPAA compliant yet (comes in Phase 2)
+- Not FDA cleared — educational/workflow tool only
 
-## NEXT SESSION — WHAT TO BUILD
-Option A: Deploy to Streamlit Cloud (free, shareable link for cousin to test)
-Option B: Start Phase 2 — Supabase setup + FastAPI backend + user auth
-Recommended: Do Option A first (get real user feedback), then Option B
+## NEXT SESSION OPTIONS
+A) Start Phase 2 — Supabase + FastAPI backend + user auth
+B) Add features to Streamlit app (login, database) using Supabase directly
+C) Wait for cousin's feedback first (RECOMMENDED before building more)
 
-## DEPLOYMENT (WHEN READY)
-Streamlit Cloud (free):
-1. Push code to GitHub (without .env file)
-2. Go to streamlit.io → New app → connect GitHub repo
-3. Add ANTHROPIC_API_KEY in Streamlit Cloud secrets
-4. Get a public URL to share with cousin
+## VALIDATION QUESTIONS TO ASK COUSIN
+1. Does the output look clinically reasonable?
+2. Does it actually save time vs manual analysis?
+3. What's missing or wrong in the output?
+4. Would dental students pay for this?
+5. What would make it a must-have vs nice-to-have?
 
-## COST ESTIMATE PER ANALYSIS
-~$0.02 per analysis (2 cents) with Claude Sonnet + prompt caching
-At 500 analyses/month: ~$10 API cost
-Charging $299/month → ~97% margin
+## TECH STACK DECISIONS (FINAL)
+Phase 1 (live):   Streamlit + Gemini Vision + ReportLab
+Phase 2 (next):   FastAPI (Python) + Next.js + Supabase + Railway + Claude Sonnet
+Payments (later): Stripe
