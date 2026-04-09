@@ -36,17 +36,18 @@ Local:            keys/.env → GEMINI_API_KEY=your_key
 Streamlit Cloud:  Secrets → GEMINI_API_KEY = "your_key"
 
 ## FEATURES BUILT (PHASE 1)
-✅ X-ray image upload (JPEG/PNG/WebP)
-✅ Patient ID input
-✅ Gemini Vision API analysis with structured OPG report
-✅ PDF report download
-✅ TXT report download
-✅ Session history (in-memory)
-✅ Token usage + cost estimate per analysis
-✅ Disclaimer on every report
-✅ Dark mode UI
-✅ Deployed publicly on Streamlit Cloud
-
+```
+- X-ray image upload (JPEG/PNG/WebP)
+- Patient ID input
+- Gemini Vision API analysis with structured OPG report
+- PDF report download
+- TXT report download
+- Session history (in-memory)
+- Token usage + cost estimate per analysis
+- Disclaimer on every report
+- Dark mode UI
+- Deployed publicly on Streamlit Cloud
+```
 ## WHAT'S NOT BUILT (PHASE 2 — in priority order)
 1. Login + user accounts (Supabase auth)
 2. Persistent database (save reports between sessions)
@@ -58,12 +59,6 @@ Streamlit Cloud:  Secrets → GEMINI_API_KEY = "your_key"
 8. Chrome extension
 9. Multi-user org accounts (school admin + students)
 
-## PRICING MODEL (DECIDED)
-Trial:       20 free analyses
-Solo:        $49/month  — 1 user
-Clinic:      $149/month — up to 5 users
-School plan: $299/month — unlimited users per org
-
 ## COMPLIANCE NOTES
 - Disclaimer on every report
 - Patient IDs only, no real names
@@ -73,16 +68,4 @@ School plan: $299/month — unlimited users per org
 ## NEXT SESSION OPTIONS
 A) Start Phase 2 — Supabase + FastAPI backend + user auth
 B) Add features to Streamlit app (login, database) using Supabase directly
-C) Wait for cousin's feedback first (RECOMMENDED before building more)
 
-## VALIDATION QUESTIONS TO ASK COUSIN
-1. Does the output look clinically reasonable?
-2. Does it actually save time vs manual analysis?
-3. What's missing or wrong in the output?
-4. Would dental students pay for this?
-5. What would make it a must-have vs nice-to-have?
-
-## TECH STACK DECISIONS (FINAL)
-Phase 1 (live):   Streamlit + Gemini Vision + ReportLab
-Phase 2 (next):   FastAPI (Python) + Next.js + Supabase + Railway + Claude Sonnet
-Payments (later): Stripe
