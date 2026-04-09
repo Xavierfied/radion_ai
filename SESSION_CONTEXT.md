@@ -12,23 +12,6 @@ Co-founder setup: Developer in Pakistan, dentist cousin in USA for domain expert
 GitHub repo: github.com/Xavierfied/radion_ai (public)
 Currently in: Validation phase — waiting for cousin's feedback from real users
 
-## ACTUAL FILE STRUCTURE
-radion_ai/
-├── .streamlit/
-│   └── config.toml         ← Dark theme config
-├── .venv/                  ← Virtual environment (not on GitHub)
-├── keys/
-│   └── .env                ← API keys — local only, never on GitHub
-├── prompts/
-│   └── report_template.py  ← Full OPG analysis system prompt
-├── utils/
-│   ├── analyzer.py         ← Claude/Anthropic version (not active yet)
-│   ├── analyzer_g.py       ← Gemini version (CURRENTLY ACTIVE)
-│   └── pdf_generator.py    ← ReportLab PDF generation
-├── app.py                  ← Main Streamlit app
-├── requirements.txt        ← Python dependencies
-├── .gitignore              ← Contains .env and .venv
-└── SESSION_CONTEXT.md      ← This file
 
 ## IMPORTANT — IMPORT PATHS
 Since files are in subfolders, imports in app.py use:
@@ -41,7 +24,7 @@ And analyzer_g.py loads env from:
     load_dotenv("keys/.env")
 
 ## ACTIVE AI SETUP
-Currently using:  Gemini 2.0 Flash (analyzer_g.py)
+Currently using:  Gemini 2.5 Flash (analyzer_g.py)
 Free tier limits: 1,500 requests/day, 15 requests/minute
 Streamlit secret: GEMINI_API_KEY = "your_key"
 
